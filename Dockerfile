@@ -6,6 +6,7 @@ ENV HOME /root
 # =========================
 
 RUN echo "\n=================\n INSTALLING RUBY SDK INSTALLER \n=================\n"
+RUN apk update
 RUN apk add --no-cache bash gcc git libc-dev make
 
 RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv
@@ -20,7 +21,7 @@ RUN git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ru
 
 FROM alpine:3.10.3 AS final
 ENV HOME /root
-
+RUN apk update
 RUN apk add --no-cache bash g++ linux-headers make openssl-dev readline-dev zlib-dev
 
 WORKDIR "$HOME"
@@ -34,10 +35,8 @@ RUN echo 'echo "running profile"' >> /root/.bash_profile
 # =========================
 
 RUN echo "\n=================\n INSTALLING NGINX \n=================\n"
-RUN apk add --no-cache nginx
-RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-RUN mkdir -p /run/nginx
+RUN apk add --no-cache nginx=1.16.1-r1
+COPY nginx /etc/nginx
 
 # ==================================================
 # INSTALLING RUBY
