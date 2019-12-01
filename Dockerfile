@@ -36,7 +36,6 @@ RUN echo 'echo "running profile"' >> /root/.bash_profile
 
 RUN echo "\n=================\n INSTALLING NGINX \n=================\n"
 RUN apk add --no-cache nginx=1.16.1-r1
-COPY nginx /etc/nginx
 
 # ==================================================
 # INSTALLING RUBY
